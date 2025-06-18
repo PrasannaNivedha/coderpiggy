@@ -1,131 +1,37 @@
-//projects frames
-let pages = [];
-pages[0] = document.getElementById("iframe1");
-pages[1] = document.getElementById("iframe2");
-pages[2] = document.getElementById("iframe3");
 
-//initial page source
-document.getElementById('goto').href = pages[0].src ;
+//for modal display only
+let contacky = document.getElementById('contactform')
 
-//to load initial frame
-for (let i=1; i<pages.length; i++)
+contacky.addEventListener("submit", funk);
+
+function funk(event)
 {
-   pages[i].style.display = "none";
-}
+    event.preventDefault();
 
-//function to change as per button click
-document.getElementById('buttons').addEventListener('click',changerfunk);
-let j=1;
-
-function changerfunk(event)
-{
-    if(event.target.innerHTML === "Next")
+    if(contacky.checkValidity())
     {
-      if(j<pages.length)
-        {
-          for(let k=0; k<pages.length; k++)
-          {
-            if(k==j)
-            {pages[k].style.display = "block";
-                document.getElementById('goto').href = pages[k].src ;
-            }
-            else
-            {pages[k].style.display = "none";}
-          }
-          j++;
-        }
-      else
-        {
-          j = 0;
-          for(k=0; k<pages.length; k++)
-          {
-            if(k==j)
-            {pages[k].style.display = "block";
-                document.getElementById('goto').href = pages[k].src ;
-            }
-            else
-            {pages[k].style.display = "none";}
-          }
-          j++;
-        }
+        let modal = new bootstrap.Modal(document.getElementById('myModal'));
+        modal.show();
+        contacky.reset();
+
     }
     else
     {
-        if(j>=0)
-        {
-          for(let k=0; k<pages.length; k++)
-          {
-            if(k==j)
-            {pages[k].style.display = "block";
-                document.getElementById('goto').href = pages[k].src ;
-            }
-            else
-            {pages[k].style.display = "none";}
-          }
-          j--;
-        }
-      else
-        {
-          j = pages.length-1;
-          for(k=0; k<pages.length; k++)
-          {
-            if(k==j)
-            {pages[k].style.display = "block";
-                document.getElementById('goto').href = pages[k].src ;
-            }
-            else
-            {pages[k].style.display = "none";}
-          }
-          j--;
-        }
-    
+        contacky.reportValidity();
     }
-    
+
 }
 
-let slideshowinterval = setInterval(timefunk, 5000)
+//collapsing navbar quickly 
+document.addEventListener("DOMContentLoaded", function () {
+    const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+    const navbarCollapse = document.querySelector(".navbar-collapse");
 
-function timefunk()
-{
-    if(j<pages.length)
-        {
-          for(let k=0; k<pages.length; k++)
-          {
-            if(k==j)
-            {pages[k].style.display = "block";
-              document.getElementById('goto').href = pages[k].src ;
-            }
-            else
-            {pages[k].style.display = "none";}
-          }
-          j++;
+    navLinks.forEach(function (link) {
+      link.addEventListener("click", function () {
+        if (navbarCollapse.classList.contains("show")) {
+          new bootstrap.Collapse(navbarCollapse).hide();
         }
-      else
-        {
-          j = 0;
-          for(k=0; k<pages.length; k++)
-          {
-            if(k==j)
-            {pages[k].style.display = "block";
-                document.getElementById('goto').href = pages[k].src ;
-            }
-            else
-            {pages[k].style.display = "none";}
-          }
-          j++;
-        }
-}
-
-document.getElementById('pageview').addEventListener('mouseover',pausefunction)
-
-function pausefunction()
-{
-    clearInterval(slideshowinterval);
-
-}
-document.getElementById('pageview').addEventListener('mouseout',resumefunk);
-
-function resumefunk()
-{
-    slideshowinterval = setInterval(timefunk, 5000);
-}
+      });
+    });
+  });
